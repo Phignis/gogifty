@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+
+        <title>Blog</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" type="text/css"/>
+    </head>
+    <body>
+        <div th:replace="fragments/navbar"></div>
+        <p th:text="'Bonjour ' + ${nomTemplate} + ' !'" />
+        <div class="container"><br/>
+            <div class="alert alert-success">
+                <strong>Success!</strong> It is working as we expected.
+            </div>
+        </div>
+    </body>
+</html>
