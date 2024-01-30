@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}" />
+    <title>Profile</title>
+
+    <style>
+        .profile-container {
+            text-align: center;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+
+        .profile-details {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .edit-button {
+            margin-right: 10px;
+        }
+    </style>
+    <title>Profile</title>
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title text-center">Profile</h3>
+                    <div class="profile-container">
+                        <img th:src="@{/images/profil.png}" class="profile-image" alt="Profile Image"/>
+                        <div class="profile-details">
+                            <p th:text="'Welcome ' + ${salesman.firstName} + ' ' + ${salesman.lastName} + '!'"></p>
+                            <p th:text="'Last Name: ' + ${salesman.lastName}"></p>
+                            <p th:text="'First Name: ' + ${salesman.firstName}"></p>
+                            <p th:text="'Email: ' + ${salesman.email}"></p>
+
+                            <h5 class="card-title text-center">Modify informations </h5>
+                            <!-- Formulaire de modification -->
+                            <form id="editProfileForm" th:action="@{/editProfile}" method="post" onsubmit="showSuccessPopup()">
+                                <input type="hidden" class="form-control" id="customerId" name="customerId" th:value="${salesman.idSalesman}" >
+                                <div class="mb-3">
+                                    <label for="editLastName" class="form-label">Last Name:</label>
+                                    <input type="text" class="form-control" id="editLastName" name="editLastName" th:value="${salesman.lastName}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editFirstName" class="form-label">First Name:</label>
+                                    <input type="text" class="form-control" id="editFirstName" name="editFirstName" th:value="${salesman.firstName}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="editEmail" class="form-label">Email:</label>
+                                    <input type="text" class="form-control" id="editEmail" name="editEmail" th:value="${salesman.email}">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </form>
+
+                        </div>
+                        <a href="/login" class="btn btn-danger">Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/styles/js/bootstrap.min.js}"></script>
+<script>
+    function showSuccessPopup() {
+        var result = confirm("Changes saved successfully. Do you want to go back to the login page?");
+
+        if (result) {
+            window.location.href = "/login";
+        }
+    }
+</script>
+</body>
+</html>
