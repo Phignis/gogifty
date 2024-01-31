@@ -11,7 +11,7 @@ public class Customer {
     private String firstName;
     private String password;
     private String email;
-    private int phoneNumber;
+    private String phoneNumber;
     private int membershipPoints;
 
     @OneToOne
@@ -54,9 +54,9 @@ public class Customer {
 
     public void setEmail(String email) {this.email = email;}
 
-    public int getPhoneNumber() {return phoneNumber;}
+    public String getPhoneNumber() {return phoneNumber;}
 
-    public void setPhoneNumber(int phoneNumber) {this.phoneNumber = phoneNumber;}
+    public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}
 
     public int getMembershipPoints() {return membershipPoints;}
 

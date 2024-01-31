@@ -26,12 +26,13 @@ public class CustomerController {
         return "login";
     }
 
+
     @PostMapping("/editProfile")
     public String editProfile(
             @RequestParam String editLastName,
             @RequestParam String editFirstName,
             @RequestParam String editEmail,
-            @RequestParam int editPhoneNumber,
+            @RequestParam String editPhoneNumber,
             @RequestParam String customerId,
             Model model) {
 

@@ -30,6 +30,7 @@
     <title>Profile</title>
 </head>
 <body>
+<div th:replace="~{fragments/navbar}"></div>
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -40,23 +41,19 @@
                         <img th:src="@{/images/profil.png}" class="profile-image" alt="Profile Image"/>
                         <div class="profile-details">
                             <p th:text="'Welcome ' + ${salesman.firstName} + ' ' + ${salesman.lastName} + '!'"></p>
-                            <p th:text="'Last Name: ' + ${salesman.lastName}"></p>
-                            <p th:text="'First Name: ' + ${salesman.firstName}"></p>
-                            <p th:text="'Email: ' + ${salesman.email}"></p>
 
-                            <h5 class="card-title text-center">Modify informations </h5>
                             <!-- Formulaire de modification -->
                             <form id="editProfileForm" th:action="@{/editProfile}" method="post" onsubmit="showSuccessPopup()">
                                 <input type="hidden" class="form-control" id="customerId" name="customerId" th:value="${salesman.idSalesman}" >
-                                <div class="mb-3">
+                                <div class="mb-3 mx-5">
                                     <label for="editLastName" class="form-label">Last Name:</label>
                                     <input type="text" class="form-control" id="editLastName" name="editLastName" th:value="${salesman.lastName}">
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-3 mx-5">
                                     <label for="editFirstName" class="form-label">First Name:</label>
                                     <input type="text" class="form-control" id="editFirstName" name="editFirstName" th:value="${salesman.firstName}">
                                 </div>
-                                <div class="mb-3">
+                                <div class="mb-3 mx-5">
                                     <label for="editEmail" class="form-label">Email:</label>
                                     <input type="text" class="form-control" id="editEmail" name="editEmail" th:value="${salesman.email}">
                                 </div>
