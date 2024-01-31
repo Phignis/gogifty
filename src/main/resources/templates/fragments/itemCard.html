@@ -1,0 +1,8 @@
+<div th:fragment="itemCard(item)" class="container m-1 d-flex flex-column justify-content-center">
+  <p class="resizable" th:text="${item.nameItem}"></p>
+  <p class="resizable" th:text="${item.getBrand().nameBrand}"></p>
+  <div class="d-flex flex-row justify-content-center">
+    <p class="resizable" th:text="${item.initialPrice} + '€'"></p>
+    <p>0€</p>
+  </div>
+</div>

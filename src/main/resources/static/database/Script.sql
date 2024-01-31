@@ -175,20 +175,20 @@ CREATE TABLE IF NOT EXISTS `SPECIAL_EVENT_t` (
 -- check with trigger because mysql CHECK does not support not-deterministic function as CURRENT_DATE()
 DROP TRIGGER IF EXISTS special_event_check_begin_date_insert;
 DELIMITER $$ -- set delimiter for query end to $$
-CREATE TRIGGER IF NOT EXISTS special_event_check_begin_date
+CREATE TRIGGER IF NOT EXISTS special_event_check_begin_date_insert
 BEFORE INSERT ON SPECIAL_EVENT_t
 FOR EACH ROW
 BEGIN
-    IF DATEDIFF(new.startDate, CURRENT_DATE()) > -1 THEN -- 02 means exception, here 0001 means "Illegal Values upon insert/update"
+    IF DATEDIFF(new.startDate, CURRENT_DATE()) < 0 THEN -- 02 means exception, here 0001 means "Illegal Values upon insert"
         SIGNAL SQLSTATE '02001' SET MESSAGE_TEXT = 'Illegal Values upon insert: startDate cannot be before today s date!';
     END IF;
 END$$
 DROP TRIGGER IF EXISTS special_event_check_begin_date_update$$
-CREATE TRIGGER IF NOT EXISTS special_event_check_begin_date
+CREATE TRIGGER IF NOT EXISTS special_event_check_begin_date_update
 BEFORE UPDATE ON SPECIAL_EVENT_t
 FOR EACH ROW
 BEGIN
-    IF DATEDIFF(new.startDate, CURRENT_DATE()) > -1 THEN -- 02 means exception, here 0001 means "Illegal Values upon insert/update"
+    IF DATEDIFF(new.startDate, CURRENT_DATE()) < 0 THEN -- 02 means exception, here 0002 means "Illegal Values upon update"
         SIGNAL SQLSTATE '02002' SET MESSAGE_TEXT = 'Illegal Values upon update: startDate cannot be before today s date!';
     END IF;
 END$$
@@ -241,7 +241,7 @@ CREATE TRIGGER IF NOT EXISTS promotion_check_begin_date_insert
 BEFORE INSERT ON PROMOTION_t
 FOR EACH ROW
 BEGIN
-    IF DATEDIFF(new.startDate, CURRENT_DATE()) > -1 THEN
+    IF DATEDIFF(new.startDate, CURRENT_DATE()) < 0 THEN
         SIGNAL SQLSTATE '02001' SET MESSAGE_TEXT = 'Illegal Values upon insert: startDate cannot be before today s date!';
     END IF;
 END$$
@@ -250,7 +250,7 @@ CREATE TRIGGER IF NOT EXISTS promotion_check_begin_date_update
 BEFORE UPDATE ON PROMOTION_t
 FOR EACH ROW
 BEGIN
-    IF DATEDIFF(new.startDate, CURRENT_DATE()) > -1 THEN
+    IF DATEDIFF(new.startDate, CURRENT_DATE()) < 0 THEN
         SIGNAL SQLSTATE '02002' SET MESSAGE_TEXT = 'Illegal Values upon update: startDate cannot be before today s date!';
     END IF;
 END$$
