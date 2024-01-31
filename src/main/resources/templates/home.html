@@ -8,6 +8,16 @@
     p.resizable {
         display: inline-block; /* or use "inline" */
     }
+    .idCard {
+        max-width : 15rem;
+        box-shadow : 1px 2px 10px;
+        border-radius : 4px;
+    }
+    .idCard:hover {
+        max-width : 15rem;
+        box-shadow : 4px 6px 10px;
+        border-radius : 4px;
+    }
 </style>
 </head>
 <body>
@@ -15,8 +25,11 @@
     <div class="d-flex flex-column justify-content-left">
         <t1>Welcome on Gogitfy!</t1>
         <t2>Available gifts</t2>
-        <div class="d-flex flex-row justify-content-center" th:each="freeItem:${freeItems}">
-            <div th:replace="~{fragments/itemCard :: itemCard(item=${freeItem})}"></div>
+        <div class="container d-flex flex-row flex-wrap justify-content-around">
+            <div th:each="freeItem:${freeItems}">
+                <div th:replace="~{fragments/itemCard :: itemCard(item=${freeItem})}"></div>
+            </div>
+
         </div>
     </div>
 
