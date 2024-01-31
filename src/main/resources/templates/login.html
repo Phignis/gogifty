@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <title>Login</title>
+</head>
+<body>
+<div th:replace="~{fragments/navbar}"></div>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title text-center">Login</h3>
+                    <p th:text = "${error}"></p>
+                    <form action="/login" method="post">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="text" class="form-control" id="email" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password:</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="usertype" class="form-label">User Type:</label>
+                            <select class="form-select" id="usertype" name="usertype">
+                                <option value="customer">Customer</option>
+                                <option value="salesman">Salesman</option>
+                            </select>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/styles/js/bootstrap.min.js}"></script>
+</body>
+</html>
