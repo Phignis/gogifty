@@ -26,7 +26,6 @@ public class CustomerController {
         return "login";
     }
 
-
     @PostMapping("/editProfile")
     public String editProfile(
             @RequestParam String editLastName,

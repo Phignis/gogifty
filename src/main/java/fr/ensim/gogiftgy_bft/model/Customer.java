@@ -13,7 +13,10 @@ public class Customer {
     private String email;
     private int phoneNumber;
     private int membershipPoints;
-    private Long idLevel;
+
+    @OneToOne
+    @JoinColumn(name="idLevel", referencedColumnName = "idLevel")
+    private MembershipLevel membershipLevel;
     @OneToOne
     @JoinColumn(name = "idSalesman", referencedColumnName = "idSalesman")
     private Salesman salesman;
@@ -59,15 +62,19 @@ public class Customer {
 
     public void setMembershipPoints(int membershipPoints) {this.membershipPoints = membershipPoints;}
 
-    public Long getIdLevel() {return idLevel;}
-
-    public void setIdLevel(Long idLevel) {this.idLevel = idLevel;}
-
     public Salesman getSalesman() {
         return salesman;
     }
 
     public void setSalesman(Salesman salesman) {
         this.salesman = salesman;
+    }
+
+    public MembershipLevel getMembershipLevel() {
+        return membershipLevel;
+    }
+
+    public void setMembershipLevel(MembershipLevel membershipLevel) {
+        this.membershipLevel = membershipLevel;
     }
 }

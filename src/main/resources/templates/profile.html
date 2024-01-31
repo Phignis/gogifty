@@ -48,7 +48,10 @@
                             <div th:if="${customer.salesman != null}">
                                 <p th:text="'Salesman: ' + ${customer.getSalesman().firstName} + ' ' + ${customer.getSalesman().lastName}"></p>
                             </div>
-                            <p th:text="'Level: ' + ${customer.idLevel}"></p>
+                            <div th:if="${customer.membershipLevel != null}">
+                                <p th:text="'Membership: ' + ${customer.getMembershipLevel().nameLevel}"></p>
+                                <p th:text="'Total days left for points: ' + ${customer.getMembershipLevel().nbDaysExpiryDelay}"></p>
+                            </div>
 
                             <h5 class="card-title text-center">Modify informations </h5>
                             <!-- Formulaire de modification -->
