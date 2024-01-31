@@ -175,20 +175,20 @@ CREATE TABLE IF NOT EXISTS `SPECIAL_EVENT_t` (
 -- check with trigger because mysql CHECK does not support not-deterministic function as CURRENT_DATE()
 DROP TRIGGER IF EXISTS special_event_check_begin_date_insert;
 DELIMITER $$ -- set delimiter for query end to $$
-CREATE TRIGGER IF NOT EXISTS special_event_check_begin_date
+CREATE TRIGGER IF NOT EXISTS special_event_check_begin_date_insert
 BEFORE INSERT ON SPECIAL_EVENT_t
 FOR EACH ROW
 BEGIN
-    IF DATEDIFF(new.startDate, CURRENT_DATE()) > -1 THEN -- 02 means exception, here 0001 means "Illegal Values upon insert/update"
+    IF DATEDIFF(new.startDate, CURRENT_DATE()) < 0 THEN -- 02 means exception, here 0001 means "Illegal Values upon insert"
         SIGNAL SQLSTATE '02001' SET MESSAGE_TEXT = 'Illegal Values upon insert: startDate cannot be before today s date!';
     END IF;
 END$$
 DROP TRIGGER IF EXISTS special_event_check_begin_date_update$$
-CREATE TRIGGER IF NOT EXISTS special_event_check_begin_date
+CREATE TRIGGER IF NOT EXISTS special_event_check_begin_date_update
 BEFORE UPDATE ON SPECIAL_EVENT_t
 FOR EACH ROW
 BEGIN
-    IF DATEDIFF(new.startDate, CURRENT_DATE()) > -1 THEN -- 02 means exception, here 0001 means "Illegal Values upon insert/update"
+    IF DATEDIFF(new.startDate, CURRENT_DATE()) < 0 THEN -- 02 means exception, here 0002 means "Illegal Values upon update"
         SIGNAL SQLSTATE '02002' SET MESSAGE_TEXT = 'Illegal Values upon update: startDate cannot be before today s date!';
     END IF;
 END$$
@@ -241,7 +241,7 @@ CREATE TRIGGER IF NOT EXISTS promotion_check_begin_date_insert
 BEFORE INSERT ON PROMOTION_t
 FOR EACH ROW
 BEGIN
-    IF DATEDIFF(new.startDate, CURRENT_DATE()) > -1 THEN
+    IF DATEDIFF(new.startDate, CURRENT_DATE()) < 0 THEN
         SIGNAL SQLSTATE '02001' SET MESSAGE_TEXT = 'Illegal Values upon insert: startDate cannot be before today s date!';
     END IF;
 END$$
@@ -250,7 +250,7 @@ CREATE TRIGGER IF NOT EXISTS promotion_check_begin_date_update
 BEFORE UPDATE ON PROMOTION_t
 FOR EACH ROW
 BEGIN
-    IF DATEDIFF(new.startDate, CURRENT_DATE()) > -1 THEN
+    IF DATEDIFF(new.startDate, CURRENT_DATE()) < 0 THEN
         SIGNAL SQLSTATE '02002' SET MESSAGE_TEXT = 'Illegal Values upon update: startDate cannot be before today s date!';
     END IF;
 END$$
@@ -646,5 +646,19 @@ CREATE TABLE IF NOT EXISTS `ITEM_CATEGORY_tj` (
         ON UPDATE CASCADE,
     PRIMARY KEY(`idItem`, `idCategory`)
 ) ENGINE=InnoDB;
+
+-- insert minimal values for GUI showcase
+INSERT INTO SALESMAN_t VALUES(1, 'Dohn', 'Joe', '5678', 'joe.dohn@gmail.com');
+INSERT INTO MEMBERSHIP_t VALUES(1, 'Silver', '30', 1000);
+INSERT INTO CUSTOMER_t VALUES('17-SPR-0001', 'Billy', 'John', '1234', 'john.billy@gmail.com', '079283', 1200,
+    (SELECT idSalesman FROM SALESMAN_t WHERE lastName='Dohn' AND firstName='Joe'),
+    (SELECT idLevel FROM MEMBERSHIP_t WHERE nameLevel='Silver'));
+
+INSERT INTO BRAND_t VALUES(DEFAULT, 'Guccii');
+INSERT INTO ITEM_t VALUES(1, 'PETIT SAC À MAIN OPHIDIA GG', 1509.99, 100, (SELECT idBrand FROM BRAND_t WHERE nameBrand='Guccii'));
+INSERT INTO ITEM_t VALUES(2, 'VALISE À ROULETTES GUCCI SAVOY GG TAILLE M', 2799.99, 200, (SELECT idBrand FROM BRAND_t WHERE nameBrand='Guccii'));
+INSERT INTO PROMOTION_t VALUES(1, CURRENT_DATE(), CURRENT_DATE(), DEFAULT, DEFAULT, 1.0, '*', 6000, NULL);
+INSERT INTO PROMOTION_ON_ITEM_tj VALUES((SELECT idItem FROM ITEM_t WHERE nameItem='PETIT SAC À MAIN OPHIDIA GG'), 1);
+INSERT INTO PROMOTION_ON_ITEM_tj VALUES((SELECT idItem FROM ITEM_t WHERE nameItem='VALISE À ROULETTES GUCCI SAVOY GG TAILLE M'), 1);
 
 COMMIT;
